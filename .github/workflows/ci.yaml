@@ -65,14 +65,10 @@ jobs:
           if [ "${{ matrix.build }}" = "windows" ]; then
             cp "../target/${{ matrix.target }}/debug/multi_ncm_dump.exe" ./
             cp "../target/${{ matrix.target }}/release/multi_ncm_dump.exe" ./multi_ncm_dump_release.exe
-            cp -r "../static" ./
-            cp "../Rocket.toml" ./
             7z a "${{ matrix.archive-name }}" multi_ncm_dump.exe multi_ncm_dump_release.exe
           else
             cp "../target/${{ matrix.target }}/debug/multi_ncm_dump" ./
             cp "../target/${{ matrix.target }}/release/multi_ncm_dump" ./multi_ncm_dump_release
-            cp -r "../static" ./
-            cp "../Rocket.toml" ./
             tar -czf "${{ matrix.archive-name }}" multi_ncm_dump multi_ncm_dump_release
           fi
       - name: Upload archive
