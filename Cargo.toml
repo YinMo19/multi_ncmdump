@@ -1,5 +1,5 @@
 [package]
-name = "ncm_rust"
+name = "multi_ncm_dump"
 version = "0.1.0"
 edition = "2021"
 
