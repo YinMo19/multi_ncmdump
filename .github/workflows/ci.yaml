@@ -46,7 +46,6 @@ jobs:
 
       - name: Build binary
         run: |
-          cargo build --target ${{ matrix.target }}
           cargo build --release --target ${{ matrix.target }} 
         env:
           RUST_BACKTRACE: 1
@@ -54,7 +53,6 @@ jobs:
       - name: Strip binary (linux and macos)
         if: matrix.build == 'linux' || matrix.build == 'macos'
         run: |
-          strip "target/${{ matrix.target }}/debug/multi_ncm_dump"
           strip "target/${{ matrix.target }}/release/multi_ncm_dump"
 
       - name: Build archive
@@ -63,13 +61,11 @@ jobs:
           mkdir archive
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
-            cp "../target/${{ matrix.target }}/debug/multi_ncm_dump.exe" ./
-            cp "../target/${{ matrix.target }}/release/multi_ncm_dump.exe" ./multi_ncm_dump_release.exe
-            7z a "${{ matrix.archive-name }}" multi_ncm_dump.exe multi_ncm_dump_release.exe
+            cp "../target/${{ matrix.target }}/release/multi_ncm_dump.exe" ./multi_ncm_dump.exe
+            7z a "${{ matrix.archive-name }}" multi_ncm_dump.exe 
           else
-            cp "../target/${{ matrix.target }}/debug/multi_ncm_dump" ./
-            cp "../target/${{ matrix.target }}/release/multi_ncm_dump" ./multi_ncm_dump_release
-            tar -czf "${{ matrix.archive-name }}" multi_ncm_dump multi_ncm_dump_release
+            cp "../target/${{ matrix.target }}/release/multi_ncm_dump" ./multi_ncm_dump
+            tar -czf "${{ matrix.archive-name }}" multi_ncm_dump 
           fi
       - name: Upload archive
         uses: actions/upload-artifact@v4
